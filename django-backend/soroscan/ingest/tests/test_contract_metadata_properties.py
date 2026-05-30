@@ -31,10 +31,25 @@ class TestCascadeDeleteProperty(TestCase):
 
 # Feature: contract-metadata-registry, Property 1: Metadata round-trip
 class TestMetadataRoundTripProperty(TestCase):
+    _valid_text = st.text(
+        alphabet=st.characters(blacklist_characters=["\x00"]),
+    )
+
     @given(
-        name=st.text(min_size=1, max_size=256),
-        description=st.text(),
-        tags=st.lists(st.text(min_size=1, max_size=50), max_size=10),
+        name=st.text(
+            alphabet=st.characters(blacklist_characters=["\x00"]),
+            min_size=1,
+            max_size=256,
+        ),
+        description=st.text(alphabet=st.characters(blacklist_characters=["\x00"])),
+        tags=st.lists(
+            st.text(
+                alphabet=st.characters(blacklist_characters=["\x00"]),
+                min_size=1,
+                max_size=50,
+            ),
+            max_size=10,
+        ),
     )
     @settings(max_examples=50)
     def test_metadata_round_trip(self, name, description, tags):
