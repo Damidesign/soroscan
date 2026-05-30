@@ -3,8 +3,13 @@ Test settings for SoroScan project.
 """
 from pathlib import Path
 
+import environ
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+env = environ.Env()
+environ.Env.read_env(BASE_DIR / ".env")
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = "django-insecure-test-key-for-testing-only"
@@ -73,19 +78,19 @@ TEMPLATES = [
 WSGI_APPLICATION = "soroscan.wsgi.application"
 ASGI_APPLICATION = "soroscan.asgi.application"
 
+# Database - use DATABASE_URL when provided, otherwise default to in-memory SQLite.
+DATABASES = {
+    "default": env.db(
+        "DATABASE_URL",
+        default="sqlite:///:memory:",
+    ),
+}
+
 # Channels configuration for testing
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels.layers.InMemoryChannelLayer",
     },
-}
-
-# Database - use in-memory SQLite for tests
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": ":memory:",
-    }
 }
 
 # Password validation
