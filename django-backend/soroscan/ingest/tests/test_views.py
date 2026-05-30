@@ -1,3 +1,5 @@
+from unittest.mock import patch
+
 import pytest
 import responses
 from django.contrib.auth import get_user_model
