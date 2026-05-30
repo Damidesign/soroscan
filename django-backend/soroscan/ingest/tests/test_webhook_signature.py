@@ -11,7 +11,7 @@ import json
 
 import pytest
 import responses
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock
 
 from soroscan.ingest.models import WebhookSubscription
 from soroscan.ingest.tasks import _build_webhook_signature_header, dispatch_webhook
